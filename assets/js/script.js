@@ -77,7 +77,7 @@ function navigateTo(target) {
     transition: TRANSITION,
     transform:  'translateX(0)',
     opacity:    '1',
-    pointerEvents: 'all',
+    pointerEvents: 'none',
   });
 
   // Reset scrollable containers so incoming page starts at top (forward) or bottom (backward)
@@ -113,6 +113,9 @@ function navigateTo(target) {
     void outEl.offsetHeight;
     // Clear transition so it's ready for future use
     outEl.style.transition = '';
+
+    // Re-enable pointer events on the incoming page now that transition is fully complete
+    inEl.style.pointerEvents = 'all';
 
     isTransitioning = false;
   }, DURATION_MS + 60);
@@ -371,20 +374,33 @@ document.addEventListener('wheel', e => {
 // ─────────────────────────────────────────────────
 // Touch / swipe navigation
 // ─────────────────────────────────────────────────
-let touchStartX = 0;
-let touchStartY = 0;
+let touchStartX = null;
+let touchStartY = null;
 
 document.addEventListener('touchstart', e => {
+  // If touching any interactive control or button, do not initiate page swipe
+  if (e.target.closest('button, a, input, select, textarea, .nav__btn, .btn-primary, .btn-secondary, .cc, .proj-card, .lightbox, .img-scroller')) {
+    touchStartX = null;
+    touchStartY = null;
+    return;
+  }
   touchStartX = e.touches[0].clientX;
   touchStartY = e.touches[0].clientY;
 }, { passive: true });
 
 document.addEventListener('touchend', e => {
-  if (isTransitioning) return;
+  if (isTransitioning || touchStartX === null || touchStartY === null) {
+    touchStartX = null;
+    touchStartY = null;
+    return;
+  }
   const dx = touchStartX - e.changedTouches[0].clientX;
   const dy = touchStartY - e.changedTouches[0].clientY;
-  // Only trigger on mostly-horizontal swipes
-  if (Math.abs(dx) < Math.abs(dy) || Math.abs(dx) < 40) return;
+  touchStartX = null;
+  touchStartY = null;
+
+  // Only trigger on intentional horizontal swipes (> 60px threshold)
+  if (Math.abs(dx) < Math.abs(dy) || Math.abs(dx) < 60) return;
 
   const idx = PAGE_ORDER.indexOf(currentPage);
   if (dx > 0 && idx < PAGE_ORDER.length - 1) navigateTo(PAGE_ORDER[idx + 1]);
