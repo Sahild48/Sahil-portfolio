@@ -80,6 +80,14 @@ function navigateTo(target) {
     pointerEvents: 'all',
   });
 
+  // Reset scrollable containers so incoming page starts at top (forward) or bottom (backward)
+  if (inEl) {
+    const scrollables = inEl.querySelectorAll('.pg-projects, .pg-gallery, .pg-connect, .pg-connect__l, .pg-connect__r, .pg-edu, .pg-about__r, .pg-about');
+    scrollables.forEach(s => {
+      s.scrollTop = forward ? 0 : (s.scrollHeight - s.clientHeight);
+    });
+  }
+
   // ── Step 4: trigger companion and UI update in sync with the page animation
   currentPage = target;
   updateUI(target);
@@ -239,64 +247,113 @@ document.addEventListener('keydown', e => {
 });
 // ─────────────────────────────────────────────────
 // Mouse wheel navigation
-// For Projects & Gallery: stop at boundary, require second scroll to navigate.
-// For all other pages: single scroll navigates pages.
+// Dynamically checks if the current page or hovered element has scrollable overflow.
+// - If internal scrollable content exists, scroll smoothly within it.
+// - Stop at boundaries, requiring a deliberate second scroll to transition pages (2-step boundary).
+// - On the last page (connect), scrolling down at the bottom never transitions away.
+// - On the first page (home), scrolling up at the top never transitions away.
+// - For pages without overflow or when boundary is armed: transitions to next/prev page.
 // ─────────────────────────────────────────────────
 let wheelCooldown = false;
 
-// Pages that have their own internal scrollable content
-const SCROLL_PAGES = ['projects', 'gallery'];
+function getActiveScrollContainer(target, activePageEl) {
+  // First check if user is scrolling over a specific scrollable element inside activePageEl
+  let el = target;
+  while (el && el !== document.body && el !== document.documentElement) {
+    if (activePageEl && !activePageEl.contains(el)) break;
+    if (el.scrollHeight - el.clientHeight > 8) {
+      const overflowY = window.getComputedStyle(el).overflowY;
+      if (overflowY === 'auto' || overflowY === 'scroll') return el;
+    }
+    el = el.parentElement;
+  }
+
+  // Fallback: check primary scroll containers of the active page
+  if (activePageEl) {
+    const selectors = [
+      '.pg-projects',
+      '.pg-gallery',
+      '.pg-connect',
+      '.pg-connect__l',
+      '.pg-connect__r',
+      '.pg-edu',
+      '.pg-about__r',
+      '.pg-about',
+      '.h-overlay'
+    ];
+    for (const sel of selectors) {
+      const c = activePageEl.querySelector(sel);
+      if (c && (c.scrollHeight - c.clientHeight > 8)) {
+        const overflowY = window.getComputedStyle(c).overflowY;
+        if (overflowY === 'auto' || overflowY === 'scroll') return c;
+      }
+    }
+    if (activePageEl.scrollHeight - activePageEl.clientHeight > 8) {
+      const overflowY = window.getComputedStyle(activePageEl);
+      if (overflowY === 'auto' || overflowY === 'scroll') return activePageEl;
+    }
+  }
+  return null;
+}
 
 document.addEventListener('wheel', e => {
   if (wheelCooldown || isTransitioning) return;
 
-  // For pages with internal scrollable content, apply 2-step boundary logic
-  if (SCROLL_PAGES.includes(currentPage)) {
-    const containerSelector = currentPage === 'projects' ? '.pg-projects' : '.pg-gallery';
-    const activePageEl = document.getElementById(`page-${currentPage}`);
-    const container = activePageEl ? activePageEl.querySelector(containerSelector) : null;
+  const activePageEl = document.getElementById(`page-${currentPage}`);
+  const container = getActiveScrollContainer(e.target, activePageEl);
 
-    if (container) {
-      const { scrollTop, scrollHeight, clientHeight } = container;
-      const goingDown = e.deltaY > 0;
-      const goingUp   = e.deltaY < 0;
+  if (container) {
+    const { scrollTop, scrollHeight, clientHeight } = container;
+    const goingDown = e.deltaY > 0;
+    const goingUp   = e.deltaY < 0;
 
-      if (goingDown) {
-        const atBottom = scrollTop + clientHeight >= scrollHeight - 8;
+    if (goingDown) {
+      const atBottom = scrollTop + clientHeight >= scrollHeight - 8;
 
-        if (!atBottom) {
-          // Mid-content — scroll the container, don't navigate
-          container.scrollTop += e.deltaY;
+      if (!atBottom) {
+        // Mid-content — scroll the container, don't navigate
+        container.scrollTop += e.deltaY;
+        boundaryArmed = null;
+        return;
+      } else {
+        // At bottom boundary
+        const idx = PAGE_ORDER.indexOf(currentPage);
+        if (idx === PAGE_ORDER.length - 1) {
+          // Last page: don't navigate past this
           boundaryArmed = null;
           return;
-        } else {
-          // At bottom boundary
-          if (boundaryArmed !== 'bottom') {
-            // First time at bottom — arm & stay
-            boundaryArmed = 'bottom';
-            return;
-          }
-          // Already armed — let fall through to page navigation
         }
+        if (boundaryArmed !== 'bottom') {
+          // First time at bottom — arm & stay
+          boundaryArmed = 'bottom';
+          return;
+        }
+        // Already armed — let fall through to page navigation
       }
+    }
 
-      if (goingUp) {
-        const atTop = scrollTop <= 8;
+    if (goingUp) {
+      const atTop = scrollTop <= 8;
 
-        if (!atTop) {
-          // Mid-content — scroll the container, don't navigate
-          container.scrollTop += e.deltaY;
+      if (!atTop) {
+        // Mid-content — scroll the container, don't navigate
+        container.scrollTop += e.deltaY;
+        boundaryArmed = null;
+        return;
+      } else {
+        // At top boundary
+        const idx = PAGE_ORDER.indexOf(currentPage);
+        if (idx === 0) {
+          // First page: don't navigate before this
           boundaryArmed = null;
           return;
-        } else {
-          // At top boundary
-          if (boundaryArmed !== 'top') {
-            // First time at top — arm & stay
-            boundaryArmed = 'top';
-            return;
-          }
-          // Already armed — let fall through to page navigation
         }
+        if (boundaryArmed !== 'top') {
+          // First time at top — arm & stay
+          boundaryArmed = 'top';
+          return;
+        }
+        // Already armed — let fall through to page navigation
       }
     }
   }
