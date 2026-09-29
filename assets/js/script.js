@@ -392,6 +392,17 @@ document.addEventListener('mousemove', (e) => {
 
   // 2. Rotate the entire 3D camera body in WebGL space using camera-orbit
   const modelViewer = document.getElementById('camera-3d');
+  if (modelViewer && !modelViewer.dataset.fallbackBound) {
+    modelViewer.dataset.fallbackBound = 'true';
+    modelViewer.addEventListener('error', (event) => {
+      console.warn('3D model load error, trying GitHub raw fallback...', event);
+      const fallbackUrl = 'https://raw.githubusercontent.com/Sahild48/Sahil-portfolio/main/assets/models/character3.glb';
+      if (modelViewer.getAttribute('src') !== fallbackUrl) {
+        modelViewer.setAttribute('src', fallbackUrl);
+      }
+    });
+  }
+
   if (modelViewer) {
     const wX = window.innerWidth / 2;
     const wY = window.innerHeight / 2;
