@@ -18,12 +18,12 @@
 
 ## 🌟 Features
 
-- **🎮 Interactive 3D Stage** — Real-time 3D camera model powered by `@google/model-viewer` with cursor-tracking orbit physics and dynamic SVG facial expressions.
-- **📸 2D Voxel Camera Companion "Pixel"** — Travelling companion with retro teleport mechanics, animated face states, and contextual speech bubbles.
-- **🎯 Sniper & Particle Click Effects** — GPU-accelerated click bursts with vector crosshairs and radial micro-particles.
-- **🌓 Dual-Theme System** — Instant switching between **Porcelain Light** and **Onyx Dark** themes with zero flicker, persisted via `localStorage`.
-- **📜 2-Step Scroll Boundary Navigation** — Single-page router with intelligent scroll boundary detection; users can scroll through project grids without triggering page jumps.
-- **📱 Fully Responsive** — Optimised layouts for desktop, tablet, and mobile.
+- **🎮 Interactive 3D Stage** - Real-time 3D camera model powered by `@google/model-viewer` with cursor-tracking orbit physics and dynamic SVG facial expressions.
+- **📸 2D Voxel Camera Companion "Pixel"** - Travelling companion with retro teleport mechanics, animated face states, and contextual speech bubbles.
+- **🎯 Sniper & Particle Click Effects** - GPU-accelerated click bursts with vector crosshairs and radial micro-particles.
+- **🌓 Dual-Theme System** - Instant switching between **Porcelain Light** and **Onyx Dark** themes with zero flicker, persisted via `localStorage`.
+- **📜 2-Step Scroll Boundary Navigation** - Single-page router with intelligent scroll boundary detection; users can scroll through project grids without triggering page jumps.
+- **📱 Fully Responsive** - Optimised layouts for desktop, tablet, and mobile.
 
 ---
 
