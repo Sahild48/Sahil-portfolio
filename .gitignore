@@ -1,0 +1,67 @@
+# ──────────────────────────────────────────────────────────
+# Operating System Files
+# ──────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+ehthumbs.db
+*.lnk
+
+# ──────────────────────────────────────────────────────────
+# IDE & Editor Files
+# ──────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# ──────────────────────────────────────────────────────────
+# Development & System Metadata
+# ──────────────────────────────────────────────────────────
+.agents/
+*.log
+*.tmp
+*.cache
+
+# ──────────────────────────────────────────────────────────
+# Package Managers & Dependencies
+# ──────────────────────────────────────────────────────────
+node_modules/
+package-lock.json
+yarn.lock
+
+# ──────────────────────────────────────────────────────────
+# 3D Model Backups
+# Only character3.glb is used by the website model-viewer.
+# character.glb and character2.glb are unused 56 MB iterations.
+# ──────────────────────────────────────────────────────────
+assets/models/character.glb
+assets/models/character2.glb
+
+# ──────────────────────────────────────────────────────────
+# Unused Photography RAW Originals
+# Web-optimised WebP and JPG images in assets/photography/
+# are used on the live site. These originals are unreferenced
+# 5–12 MB high-res camera exports.
+# ──────────────────────────────────────────────────────────
+assets/photography/originals/
+
+# ──────────────────────────────────────────────────────────
+# Unreferenced Raw Model Textures
+# ──────────────────────────────────────────────────────────
+assets/textures/
+
+# ──────────────────────────────────────────────────────────
+# Raw / Uncompressed Video Formats
+# ──────────────────────────────────────────────────────────
+*.mov
+*.MOV
+*.avi
+*.AVI
+
+# ──────────────────────────────────────────────────────────
+# Vercel & Build Artefacts
+# ──────────────────────────────────────────────────────────
+.vercel
+.next/
+out/

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" class="proj-detail-html">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UE 5 Blueprint - Coin Collector — Project Breakdown | Sahil</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Press+Start+2P&family=Space+Grotesk:wght@500;600;700&family=Space+Mono:wght@400;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css?v=83" />
+  <link rel="stylesheet" href="assets/css/components.css" />
+  <!-- ══ THEME SWITCHER — runs before body renders to prevent flash ══ -->
+  <script>
+    (function() {
+      var saved = localStorage.getItem('portfolio-theme');
+      if (saved === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+      else if (!saved && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+
+    function toggleDarkMode() {
+      var html = document.documentElement;
+      var isDark = html.getAttribute('data-theme') !== 'dark';
+      html.setAttribute('data-theme', isDark ? 'dark' : 'light');
+      localStorage.setItem('portfolio-theme', isDark ? 'dark' : 'light');
+    }
+  </script>
+</head>
+
+<body class="proj-detail-page" data-companion-page="blueprints">
+
+  <!-- ══════════════════ NAVBAR ══════════════════ -->
+  <nav class="nav" id="mainNav">
+    <div class="nav__logo" onclick="window.location.href='index.html#home'">
+      <span class="nav__dot"></span> Sahil
+    </div>
+    <ul class="nav__links" id="navLinks">
+      <li><a class="nav__btn" href="index.html#home">Home</a></li>
+      <li><a class="nav__btn" href="index.html#about">About</a></li>
+      <li><a class="nav__btn" href="index.html#edu">Education</a></li>
+      <!-- Active highlight on Projects -->
+      <li><a class="nav__btn active" data-page="projects" href="index.html#projects">Projects</a></li>
+      <li><a class="nav__btn" href="index.html#gallery">Gallery</a></li>
+      <li><a class="nav__btn" href="index.html#connect">Connect</a></li>
+    </ul>
+    <button class="theme-toggle-btn" id="themeToggle" onclick="toggleDarkMode()" aria-label="Toggle theme" title="Switch Theme">
+      <span class="theme-icon theme-icon-sun">☀️</span>
+      <span class="theme-icon theme-icon-moon">🌙</span>
+    </button>
+    <button class="nav__hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- ══════════════════ MAIN CONTENT ══════════════════ -->
+  <main class="proj-detail-main">
+
+    <!-- ══════════════════ HERO SECTION (RENDERED FROM DATA) ══════════════════ -->
+    <header class="proj-overview-header" id="bpOverview"></header>
+
+    <!-- ══════════════════ MECHANICS BREAKDOWN (6 SECTIONS FROM DATA) ══════════════════ -->
+    <div class="proj-mechanics" id="bpMechanics"></div>
+
+    <!-- ══════════════════ GAMEPLAY VIDEOS SECTION ══════════════════ -->
+    <!--
+      ══════════════════════════════════════════════════════════════════
+      HOW TO ADD VIDEOS:
+      Each slot below supports:
+      1. Local video file: src="assets/videos/bp-locomotion.mp4"
+      2. YouTube/Vimeo embed: src="https://www.youtube.com/embed/YOUR_ID"
+      The slot uses lazy loading. To hide when empty, leave src="" empty
+      or update 'PROJECT_VIDEOS.blueprints' in 'assets/js/gallery-data.js'.
+      ══════════════════════════════════════════════════════════════════
+    -->
+    <!-- ══════════════════ GAMEPLAY SECTION ══════════════════ -->
+    <section class="proj-videos" id="bpVideosSection">
+      <div class="proj-videos__hdr">
+        <span class="mech-badge">Gameplay</span>
+        <h2 class="proj-videos__title">Gameplay</h2>
+      </div>
+
+      <!-- Dynamically rendered from BP_PROJECT_VIDEOS in assets/js/gallery-data.js -->
+      <div class="video-grid video-grid--single" id="bpVideosGrid"></div>
+    </section>
+
+    <!-- ══════════════════ FOOTER ══════════════════ -->
+    <footer class="proj-detail__footer">
+      <div class="footer-left">
+        <span class="footer-name">SAHIL</span>
+        <span class="footer-sub">Gameplay Programmer &bull; Unreal Engine (C++ &amp; Blueprints)</span>
+      </div>
+      <div class="footer-actions">
+        <a href="index.html#projects" class="proj-back-btn">&larr; Back to Projects</a>
+        <a href="index.html#connect" class="btn-primary">Get in Touch &rarr;</a>
+      </div>
+    </footer>
+
+  </main>
+
+  <!-- ══════════════════ PROJECT IMAGE LIGHTBOX MODAL ══════════════════ -->
+  <div class="lightbox" id="lightboxModal" aria-hidden="true" role="dialog" aria-label="Project Screenshot Lightbox">
+    <div class="lightbox__backdrop" id="lightboxBackdrop"></div>
+    <div class="lightbox__container">
+      <button class="lightbox__close" id="lightboxClose" aria-label="Close lightbox">&times;</button>
+      <button class="lightbox__nav lightbox__nav--prev" id="lightboxPrev" aria-label="Previous image">&larr;</button>
+      
+      <div class="lightbox__content">
+        <div class="lightbox__image-wrap">
+          <img src="" alt="" id="lightboxImg" class="lightbox__img" />
+          <div class="lightbox__placeholder" id="lightboxPlaceholder" style="display: none;">
+            <span>LOADING FULL RESOLUTION</span>
+          </div>
+        </div>
+        <div class="lightbox__caption-bar">
+          <span class="lightbox__counter" id="lightboxCounter">1 / 1</span>
+          <h4 class="lightbox__title" id="lightboxTitle">Project Screenshot</h4>
+          <p class="lightbox__caption" id="lightboxCaption">Description</p>
+        </div>
+      </div>
+      
+      <button class="lightbox__nav lightbox__nav--next" id="lightboxNext" aria-label="Next image">&rarr;</button>
+    </div>
+  </div>
+
+  <script src="assets/js/gallery-data.js"></script>
+  <script src="assets/js/gallery.js"></script>
+  <script src="assets/js/image-scroller.js"></script>
+  <script src="assets/js/companion-standalone.js"></script>
+
+  <!-- Mobile Hamburger Script -->
+  <script>
+    const hamburger = document.getElementById('hamburger');
+    const navLinks  = document.getElementById('navLinks');
+    if (hamburger && navLinks) {
+      hamburger.addEventListener('click', () => {
+        navLinks.classList.toggle('mobile-open');
+      });
+      navLinks.querySelectorAll('.nav__btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          navLinks.classList.remove('mobile-open');
+        });
+      });
+    }
+  </script>
+</body>
+
+</html>

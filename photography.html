@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en" class="proj-detail-html">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Photography &amp; Visual Arts | Sahil</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Press+Start+2P&family=Space+Grotesk:wght@500;600;700&family=Space+Mono:wght@400;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css?v=81" />
+  <!-- ══ THEME SWITCHER ══ -->
+  <script>
+    (function() {
+      var saved = localStorage.getItem('portfolio-theme');
+      if (saved === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+      else if (!saved && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+
+    function toggleDarkMode() {
+      var html = document.documentElement;
+      var isDark = html.getAttribute('data-theme') !== 'dark';
+      html.setAttribute('data-theme', isDark ? 'dark' : 'light');
+      localStorage.setItem('portfolio-theme', isDark ? 'dark' : 'light');
+    }
+  </script>
+</head>
+
+<body class="proj-detail-page" data-companion-page="photography">
+
+  <!-- ══════════════════ NAVBAR ══════════════════ -->
+  <nav class="nav" id="mainNav">
+    <div class="nav__logo" onclick="window.location.href='index.html#home'">
+      <span class="nav__dot"></span> Sahil
+    </div>
+    <ul class="nav__links" id="navLinks">
+      <li><a class="nav__btn" href="index.html#home">Home</a></li>
+      <li><a class="nav__btn" href="index.html#about">About</a></li>
+      <li><a class="nav__btn" href="index.html#edu">Education</a></li>
+      <li><a class="nav__btn" href="index.html#projects">Projects</a></li>
+      <!-- Active highlight on Gallery -->
+      <li><a class="nav__btn active" data-page="gallery" href="index.html#gallery">Gallery</a></li>
+      <li><a class="nav__btn" href="index.html#connect">Connect</a></li>
+    </ul>
+    <button class="theme-toggle-btn" id="themeToggle" onclick="toggleDarkMode()" aria-label="Toggle theme" title="Switch Theme">
+      <span class="theme-icon theme-icon-sun">☀️</span>
+      <span class="theme-icon theme-icon-moon">🌙</span>
+    </button>
+    <button class="nav__hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- ══════════════════ MAIN CONTENT ══════════════════ -->
+  <main class="proj-detail-main">
+
+    <!-- ══════════════════ HERO SECTION ══════════════════ -->
+    <header class="proj-detail__hero">
+      <a href="index.html#gallery" class="proj-back-btn">&larr; Back to Gallery</a>
+      <span class="proj-detail__tag">VISUAL ARTS &bull; PHOTOGRAPHY</span>
+      <h1 class="proj-detail__title">Photography &amp; Composition</h1>
+      <p class="proj-detail__summary">
+        Studies in lighting falloff, geometric framing, and atmosphere captured across architectural and live event environments. Visual direction and photography shape how I compose scenes, balance camera angles, and build environmental storytelling in games.
+      </p>
+    </header>
+
+    <!-- ══════════════════ RESPONSIVE PHOTO GRID ══════════════════ -->
+    <!--
+      ══════════════════════════════════════════════════════════════════
+      HOW TO ADD PHOTOS:
+      1. Drop full photos in 'assets/photography/photo-0X.jpg'
+      2. Drop thumbnails in 'assets/photography/photo-0X-thumb.jpg'
+      3. Update 'assets/js/gallery-data.js' under PHOTO_ALBUM.photos
+      ══════════════════════════════════════════════════════════════════
+    -->
+    <section class="photo-album-section">
+      <div class="photo-album-grid" id="photoAlbumGrid">
+
+        <!-- bench-silhouettes -->
+        <div class="photo-card" data-photo-full="assets/photography/bench-silhouettes.jpg" data-photo-title="Bench Silhouettes" data-photo-caption="Silhouetted figures on a bench — geometric contrast between human form and architectural lines.">
+          <div class="photo-card__media">
+            <picture>
+              <source srcset="assets/photography/bench-silhouettes-thumb.webp" type="image/webp" />
+              <img src="assets/photography/bench-silhouettes-thumb.jpg" loading="lazy" alt="Bench Silhouettes" class="photo-card__img" />
+            </picture>
+          </div>
+          <div class="photo-card__meta">
+            <h4 class="photo-card__title">Bench Silhouettes</h4>
+            <p class="photo-card__caption">Geometric contrast between human form and architectural lines.</p>
+          </div>
+        </div>
+
+        <!-- neon-swing -->
+        <div class="photo-card" data-photo-full="assets/photography/neon-swing.jpg" data-photo-title="Neon Swing" data-photo-caption="High-contrast neon exposure — moody nighttime environmental storytelling.">
+          <div class="photo-card__media">
+            <picture>
+              <source srcset="assets/photography/neon-swing-thumb.webp" type="image/webp" />
+              <img src="assets/photography/neon-swing-thumb.jpg" loading="lazy" alt="Neon Swing" class="photo-card__img" />
+            </picture>
+          </div>
+          <div class="photo-card__meta">
+            <h4 class="photo-card__title">Neon Swing</h4>
+            <p class="photo-card__caption">High-contrast neon exposure capturing moody nighttime storytelling.</p>
+          </div>
+        </div>
+
+        <!-- dancer-smoke -->
+        <div class="photo-card" data-photo-full="assets/photography/dancer-smoke.jpg" data-photo-title="Dancer & Smoke" data-photo-caption="Dynamic movement frozen in smoke — stage lighting and performer energy.">
+          <div class="photo-card__media">
+            <picture>
+              <source srcset="assets/photography/dancer-smoke-thumb.webp" type="image/webp" />
+              <img src="assets/photography/dancer-smoke-thumb.jpg" loading="lazy" alt="Dancer and Smoke" class="photo-card__img" />
+            </picture>
+          </div>
+          <div class="photo-card__meta">
+            <h4 class="photo-card__title">Dancer &amp; Smoke</h4>
+            <p class="photo-card__caption">Dynamic movement frozen in smoke — stage lighting and performer energy.</p>
+          </div>
+        </div>
+
+        <!-- kitten-leaves -->
+        <div class="photo-card" data-photo-full="assets/photography/kitten-leaves.jpg" data-photo-title="Kitten in Leaves" data-photo-caption="Soft natural light and organic texture — macro study of fur and foliage.">
+          <div class="photo-card__media">
+            <picture>
+              <source srcset="assets/photography/kitten-leaves-thumb.webp" type="image/webp" />
+              <img src="assets/photography/kitten-leaves-thumb.jpg" loading="lazy" alt="Kitten in Leaves" class="photo-card__img" />
+            </picture>
+          </div>
+          <div class="photo-card__meta">
+            <h4 class="photo-card__title">Kitten in Leaves</h4>
+            <p class="photo-card__caption">Soft natural light and organic texture — macro study of fur and foliage.</p>
+          </div>
+        </div>
+
+        <!-- magenta-portrait -->
+        <div class="photo-card" data-photo-full="assets/photography/magenta-portrait.jpg" data-photo-title="Magenta Portrait" data-photo-caption="Coloured light portrait — exploring magenta hue and soft falloff on skin.">
+          <div class="photo-card__media">
+            <picture>
+              <source srcset="assets/photography/magenta-portrait-thumb.webp" type="image/webp" />
+              <img src="assets/photography/magenta-portrait-thumb.jpg" loading="lazy" alt="Magenta Portrait" class="photo-card__img" />
+            </picture>
+          </div>
+          <div class="photo-card__meta">
+            <h4 class="photo-card__title">Magenta Portrait</h4>
+            <p class="photo-card__caption">Exploring magenta hue and soft falloff in coloured-light portraiture.</p>
+          </div>
+        </div>
+
+        <!-- market-nap -->
+        <div class="photo-card" data-photo-full="assets/photography/market-nap.jpg" data-photo-title="Market Nap" data-photo-caption="Candid street moment — composition within chaos, stillness amid movement.">
+          <div class="photo-card__media">
+            <picture>
+              <source srcset="assets/photography/market-nap-thumb.webp" type="image/webp" />
+              <img src="assets/photography/market-nap-thumb.jpg" loading="lazy" alt="Market Nap" class="photo-card__img" />
+            </picture>
+          </div>
+          <div class="photo-card__meta">
+            <h4 class="photo-card__title">Market Nap</h4>
+            <p class="photo-card__caption">Candid street moment — stillness amid the chaos of a busy market.</p>
+          </div>
+        </div>
+
+        <!-- courtyard-nap -->
+        <div class="photo-card" data-photo-full="assets/photography/courtyard-nap.jpg" data-photo-title="Courtyard Nap" data-photo-caption="Afternoon light and architectural framing around a quiet moment of rest.">
+          <div class="photo-card__media">
+            <picture>
+              <source srcset="assets/photography/courtyard-nap-thumb.webp" type="image/webp" />
+              <img src="assets/photography/courtyard-nap-thumb.jpg" loading="lazy" alt="Courtyard Nap" class="photo-card__img" />
+            </picture>
+          </div>
+          <div class="photo-card__meta">
+            <h4 class="photo-card__title">Courtyard Nap</h4>
+            <p class="photo-card__caption">Afternoon light and architectural framing around a quiet moment of rest.</p>
+          </div>
+        </div>
+
+        <!-- bus-candid -->
+        <div class="photo-card" data-photo-full="assets/photography/bus-candid.jpg" data-photo-title="Bus Candid" data-photo-caption="Window-light portrait in motion — natural light study on public transit.">
+          <div class="photo-card__media">
+            <picture>
+              <source srcset="assets/photography/bus-candid-thumb.webp" type="image/webp" />
+              <img src="assets/photography/bus-candid-thumb.jpg" loading="lazy" alt="Bus Candid" class="photo-card__img" />
+            </picture>
+          </div>
+          <div class="photo-card__meta">
+            <h4 class="photo-card__title">Bus Candid</h4>
+            <p class="photo-card__caption">Window-light portrait in motion — natural light study on public transit.</p>
+          </div>
+        </div>
+
+        <!-- foggy-path -->
+        <div class="photo-card" data-photo-full="assets/photography/foggy-path.jpg" data-photo-title="Foggy Path" data-photo-caption="Atmospheric depth — fog, leading lines, and environmental mood composition.">
+          <div class="photo-card__media">
+            <picture>
+              <source srcset="assets/photography/foggy-path-thumb.webp" type="image/webp" />
+              <img src="assets/photography/foggy-path-thumb.jpg" loading="lazy" alt="Foggy Path" class="photo-card__img" />
+            </picture>
+          </div>
+          <div class="photo-card__meta">
+            <h4 class="photo-card__title">Foggy Path</h4>
+            <p class="photo-card__caption">Atmospheric depth — fog, leading lines, and environmental mood composition.</p>
+          </div>
+        </div>
+
+        <!-- night-crossing -->
+        <div class="photo-card" data-photo-full="assets/photography/night-crossing.jpg" data-photo-title="Night Crossing" data-photo-caption="Long-exposure street photography — motion blur and city light trails.">
+          <div class="photo-card__media">
+            <picture>
+              <source srcset="assets/photography/night-crossing-thumb.webp" type="image/webp" />
+              <img src="assets/photography/night-crossing-thumb.jpg" loading="lazy" alt="Night Crossing" class="photo-card__img" />
+            </picture>
+          </div>
+          <div class="photo-card__meta">
+            <h4 class="photo-card__title">Night Crossing</h4>
+            <p class="photo-card__caption">Long-exposure street photography — motion blur and city light trails.</p>
+          </div>
+        </div>
+
+        <!-- sky-wires -->
+        <div class="photo-card" data-photo-full="assets/photography/sky-wires.jpg" data-photo-title="Sky & Wires" data-photo-caption="Minimal composition — power lines cutting across a clear open sky.">
+          <div class="photo-card__media">
+            <picture>
+              <source srcset="assets/photography/sky-wires-thumb.webp" type="image/webp" />
+              <img src="assets/photography/sky-wires-thumb.jpg" loading="lazy" alt="Sky and Wires" class="photo-card__img" />
+            </picture>
+          </div>
+          <div class="photo-card__meta">
+            <h4 class="photo-card__title">Sky &amp; Wires</h4>
+            <p class="photo-card__caption">Minimal composition — power lines cutting across a clear open sky.</p>
+          </div>
+        </div>
+
+        <!-- pink-portrait-alt -->
+        <div class="photo-card" data-photo-full="assets/photography/pink-portrait-alt.jpg" data-photo-title="Pink Portrait" data-photo-caption="Warm pink tones and directional soft-box lighting — portrait study.">
+          <div class="photo-card__media">
+            <picture>
+              <source srcset="assets/photography/pink-portrait-alt-thumb.webp" type="image/webp" />
+              <img src="assets/photography/pink-portrait-alt-thumb.jpg" loading="lazy" alt="Pink Portrait" class="photo-card__img" />
+            </picture>
+          </div>
+          <div class="photo-card__meta">
+            <h4 class="photo-card__title">Pink Portrait</h4>
+            <p class="photo-card__caption">Warm pink tones and directional soft-box lighting — portrait study.</p>
+          </div>
+        </div>
+
+        <!-- mountain-road -->
+        <div class="photo-card" data-photo-full="assets/photography/mountain-road.jpg" data-photo-title="Mountain Road" data-photo-caption="Expansive mountain landscape — depth, scale, and natural light on winding roads.">
+          <div class="photo-card__media">
+            <picture>
+              <source srcset="assets/photography/mountain-road-thumb.webp" type="image/webp" />
+              <img src="assets/photography/mountain-road-thumb.jpg" loading="lazy" alt="Mountain Road" class="photo-card__img" />
+            </picture>
+          </div>
+          <div class="photo-card__meta">
+            <h4 class="photo-card__title">Mountain Road</h4>
+            <p class="photo-card__caption">Expansive landscape — depth, scale, and natural light on winding mountain roads.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ══════════════════ OPTIONAL VIDEOS SECTION ══════════════════ -->
+    <section class="proj-videos">
+      <div class="proj-videos__hdr">
+        <span class="mech-badge">02 / VISUAL REELS &amp; CINEMATICS</span>
+        <h2 class="proj-videos__title">Cinematics &amp; Event Media</h2>
+        <p class="proj-videos__sub">Short highlights and composition studies filmed and edited by Sahil.</p>
+      </div>
+
+      <div class="video-grid">
+        <!-- Video Slot 1 -->
+        <div class="video-slot" data-video-src="">
+          <div class="video-container">
+            <div class="video-placeholder">
+              <span class="video-placeholder__icon">▶</span>
+              <span class="video-placeholder__label">16:9 EVENT CINEMATIC (Drop .mp4 in assets/videos or paste embed URL)</span>
+            </div>
+            <video class="video-player is-hidden" controls preload="none" loading="lazy">
+              <source src="" type="video/mp4" />
+            </video>
+            <iframe class="video-iframe is-hidden" loading="lazy" allowfullscreen></iframe>
+          </div>
+          <div class="video-info">
+            <h4 class="video-info__title">Society Event Highlights (6,000+ Attendees)</h4>
+            <p class="video-info__desc">Aftermovie compilation capturing live festival performances, crowd reactions, and ambient lighting.</p>
+          </div>
+        </div>
+
+        <!-- Video Slot 2 -->
+        <div class="video-slot" data-video-src="">
+          <div class="video-container">
+            <div class="video-placeholder">
+              <span class="video-placeholder__icon">▶</span>
+              <span class="video-placeholder__label">16:9 VISUAL SHOWREEL (Drop .mp4 in assets/videos or paste embed URL)</span>
+            </div>
+            <video class="video-player is-hidden" controls preload="none" loading="lazy">
+              <source src="" type="video/mp4" />
+            </video>
+            <iframe class="video-iframe is-hidden" loading="lazy" allowfullscreen></iframe>
+          </div>
+          <div class="video-info">
+            <h4 class="video-info__title">Visual Composition &amp; Color Grading Reel</h4>
+            <p class="video-info__desc">Framing studies, camera motion tracking, and color grading profiles.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════ FOOTER ══════════════════ -->
+    <footer class="proj-detail__footer">
+      <div class="footer-left">
+        <span class="footer-name">SAHIL</span>
+        <span class="footer-sub">Gameplay Programmer &bull; Unreal Engine (C++ &amp; Blueprints)</span>
+      </div>
+      <div class="footer-actions">
+        <a href="index.html#gallery" class="proj-back-btn">&larr; Back to Gallery</a>
+        <a href="index.html#connect" class="btn-primary">Get in Touch &rarr;</a>
+      </div>
+    </footer>
+
+  </main>
+
+  <!-- ══════════════════ LIGHTBOX MODAL ══════════════════ -->
+  <div class="lightbox" id="lightboxModal" aria-hidden="true" role="dialog" aria-label="Photo Lightbox">
+    <div class="lightbox__backdrop" id="lightboxBackdrop"></div>
+    <div class="lightbox__container">
+      <button class="lightbox__close" id="lightboxClose" aria-label="Close lightbox">&times;</button>
+      <button class="lightbox__nav lightbox__nav--prev" id="lightboxPrev" aria-label="Previous photo">&larr;</button>
+      
+      <div class="lightbox__content">
+        <div class="lightbox__image-wrap">
+          <img src="" alt="" id="lightboxImg" class="lightbox__img" />
+          <div class="lightbox__placeholder" id="lightboxPlaceholder">
+            <span>PREVIEW PLACEHOLDER</span>
+          </div>
+        </div>
+        <div class="lightbox__caption-bar">
+          <span class="lightbox__counter" id="lightboxCounter">1 / 6</span>
+          <h4 class="lightbox__title" id="lightboxTitle">Photo Title</h4>
+          <p class="lightbox__caption" id="lightboxCaption">Photo Caption Description</p>
+        </div>
+      </div>
+      
+      <button class="lightbox__nav lightbox__nav--next" id="lightboxNext" aria-label="Next photo">&rarr;</button>
+    </div>
+  </div>
+
+  <script src="assets/js/gallery-data.js"></script>
+  <script src="assets/js/gallery.js"></script>
+  <!-- Mobile Hamburger Script -->
+  <script>
+    const hamburger = document.getElementById('hamburger');
+    const navLinks  = document.getElementById('navLinks');
+    if (hamburger && navLinks) {
+      hamburger.addEventListener('click', () => navLinks.classList.toggle('mobile-open'));
+      navLinks.querySelectorAll('.nav__btn').forEach(btn => {
+        btn.addEventListener('click', () => navLinks.classList.remove('mobile-open'));
+      });
+    }
+  </script>
+
+  <!-- ══════════════════ 2D CAMERA COMPANION ══════════════════ -->
+  <div class="companion-cam pos-photography" id="companionCam" aria-hidden="true" title="Click me!">
+    <div class="companion-bubble" id="companionBubble"></div>
+    <svg class="companion-svg" viewBox="0 0 200 165" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <filter id="crt-glow-photo" x="-15%" y="-15%" width="130%" height="130%">
+          <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000" flood-opacity="0.2"/>
+        </filter>
+        <linearGradient id="screen-grad-photo" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#FFFFFF"/>
+          <stop offset="100%" stop-color="#E2F3F8"/>
+        </linearGradient>
+        <linearGradient id="body-cream-photo" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#F7EADB"/>
+          <stop offset="100%" stop-color="#EADBCA"/>
+        </linearGradient>
+        <linearGradient id="body-orange-photo" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#FA8320"/>
+          <stop offset="100%" stop-color="#E86608"/>
+        </linearGradient>
+        <linearGradient id="red-accent-photo" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#DE4629"/>
+          <stop offset="100%" stop-color="#BA3016"/>
+        </linearGradient>
+      </defs>
+      <g class="cam-top-handle">
+        <path d="M 82 14 L 118 14 L 128 32 L 72 32 Z" fill="url(#red-accent-photo)" stroke="#8A1E0B" stroke-width="1.5" stroke-linejoin="round"/>
+        <rect x="91" y="20" width="18" height="9" rx="1.5" fill="#751806" opacity="0.35"/>
+      </g>
+      <g class="cam-top-knob">
+        <rect x="135" y="18" width="30" height="14" rx="3" fill="url(#red-accent-photo)" stroke="#8A1E0B" stroke-width="1.5"/>
+        <line x1="141" y1="19" x2="141" y2="31" stroke="#F5765D" stroke-width="1.5"/>
+        <line x1="147" y1="19" x2="147" y2="31" stroke="#F5765D" stroke-width="1.5"/>
+        <line x1="153" y1="19" x2="153" y2="31" stroke="#F5765D" stroke-width="1.5"/>
+        <line x1="159" y1="19" x2="159" y2="31" stroke="#F5765D" stroke-width="1.5"/>
+      </g>
+      <g class="cam-top-shutter">
+        <rect x="42" y="24" width="22" height="8" rx="2" fill="#E6D3BE" stroke="#BC9F80" stroke-width="1.5"/>
+        <rect x="46" y="20" width="14" height="5" rx="1.5" fill="#F4E6D6" stroke="#BC9F80" stroke-width="1.5"/>
+      </g>
+      <path d="M 18 56 L 26 56 L 26 72 L 18 72 L 18 68 L 14 68 L 14 60 L 18 60 Z" fill="#E6D3BE" stroke="#B89B7E" stroke-width="1.5"/>
+      <rect x="18" y="61" width="4" height="6" rx="0.5" fill="#806850" opacity="0.3"/>
+      <path d="M 182 56 L 174 56 L 174 72 L 182 72 L 182 68 L 186 68 L 186 60 L 182 60 Z" fill="#E6D3BE" stroke="#B89B7E" stroke-width="1.5"/>
+      <rect x="178" y="61" width="4" height="6" rx="0.5" fill="#806850" opacity="0.3"/>
+      <g class="cam-main-body">
+        <path d="M 32 30 L 168 30 L 174 36 L 174 72 L 26 72 L 26 36 Z" fill="url(#body-cream-photo)" stroke="#BA9E82" stroke-width="2"/>
+        <path d="M 26 72 L 174 72 L 174 136 L 168 142 L 32 142 L 26 136 Z" fill="url(#body-orange-photo)" stroke="#B34B00" stroke-width="2"/>
+        <rect x="30" y="136" width="140" height="7" rx="1" fill="#E2D0BB" stroke="#B39373" stroke-width="1.5"/>
+      </g>
+      <rect x="38" y="44" width="22" height="11" rx="2" fill="url(#red-accent-photo)" stroke="#8A1E0B" stroke-width="1.5"/>
+      <g class="cam-viewfinder">
+        <rect x="140" y="40" width="24" height="20" rx="2.5" fill="#4A4039" stroke="#2B241F" stroke-width="1.5"/>
+        <rect x="143" y="43" width="18" height="14" rx="1.5" fill="#D2E8F2"/>
+        <polygon points="143,43 154,43 148,57 143,57" fill="#FFFFFF" opacity="0.45"/>
+      </g>
+      <g class="cam-bottom-btn">
+        <rect x="148" y="104" width="10" height="6" rx="1" fill="#E8B438" stroke="#997014" stroke-width="1"/>
+        <rect x="146" y="110" width="14" height="14" rx="3" fill="url(#red-accent-photo)" stroke="#8A1E0B" stroke-width="1.5"/>
+      </g>
+      <g class="cam-screen-bezel" filter="url(#crt-glow-photo)">
+        <rect x="62" y="46" width="76" height="76" rx="5" fill="#D66649" stroke="#96331B" stroke-width="2"/>
+        <rect x="66" y="50" width="68" height="68" rx="3" fill="#B8492D"/>
+        <rect x="70" y="54" width="60" height="60" rx="3" fill="#44413E"/>
+        <rect x="72" y="56" width="56" height="56" rx="2" fill="url(#screen-grad-photo)"/>
+        <path d="M 72 56 L 128 56 L 128 60 L 72 60 Z" fill="#000000" opacity="0.08"/>
+      </g>
+      <g id="cam2d-face-container" class="cam-pixel-face">
+        <g id="cam2d-happy" class="cam-face-state">
+          <rect x="82" y="74" width="4" height="4" fill="#1C1E22"/>
+          <rect x="86" y="78" width="4" height="4" fill="#1C1E22"/>
+          <rect x="78" y="78" width="4" height="4" fill="#1C1E22"/>
+          <rect x="114" y="74" width="4" height="4" fill="#1C1E22"/>
+          <rect x="110" y="78" width="4" height="4" fill="#1C1E22"/>
+          <rect x="118" y="78" width="4" height="4" fill="#1C1E22"/>
+          <rect x="92" y="90" width="16" height="4" rx="0.5" fill="#1C1E22"/>
+        </g>
+        <g id="cam2d-curious" class="cam-face-state" style="display:none;">
+          <rect x="80" y="74" width="8" height="8" rx="1" fill="#1C1E22"/>
+          <rect x="112" y="74" width="8" height="8" rx="1" fill="#1C1E22"/>
+          <rect x="96" y="88" width="8" height="8" rx="2" fill="#1C1E22"/>
+        </g>
+        <g id="cam2d-wink" class="cam-face-state" style="display:none;">
+          <rect x="82" y="74" width="4" height="4" fill="#1C1E22"/>
+          <rect x="78" y="78" width="4" height="4" fill="#1C1E22"/>
+          <rect x="86" y="78" width="4" height="4" fill="#1C1E22"/>
+          <rect x="110" y="78" width="12" height="4" rx="1" fill="#1C1E22"/>
+          <rect x="92" y="90" width="16" height="4" rx="0.5" fill="#1C1E22"/>
+          <rect x="90" y="88" width="3" height="3" fill="#1C1E22"/>
+          <rect x="107" y="88" width="3" height="3" fill="#1C1E22"/>
+        </g>
+        <g id="cam2d-excited" class="cam-face-state" style="display:none;">
+          <path d="M 80 74 L 88 78 L 80 82" stroke="#1C1E22" stroke-width="3" fill="none" stroke-linecap="square"/>
+          <path d="M 120 74 L 112 78 L 120 82" stroke="#1C1E22" stroke-width="3" fill="none" stroke-linecap="square"/>
+          <path d="M 92 88 Q 100 98 108 88 Z" fill="#1C1E22"/>
+        </g>
+      </g>
+    </svg>
+  </div>
+
+  <script src="assets/js/companion-standalone.js"></script>
+</body>
+
+</html>

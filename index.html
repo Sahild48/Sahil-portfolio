@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sahil — Gameplay Programmer | Unreal Engine</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Press+Start+2P&family=Space+Grotesk:wght@500;600;700&family=Space+Mono:wght@400;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css?v=83" />
+  <link rel="stylesheet" href="assets/css/components.css?v=84" />
+  <!-- ══ THEME SWITCHER — runs before body renders to prevent flash ══ -->
+  <script>
+    (function() {
+      var saved = localStorage.getItem('portfolio-theme');
+      if (saved === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+    })();
+
+    function toggleDarkMode() {
+      var html = document.documentElement;
+      var isDark = html.getAttribute('data-theme') !== 'dark';
+      html.setAttribute('data-theme', isDark ? 'dark' : 'light');
+      localStorage.setItem('portfolio-theme', isDark ? 'dark' : 'light');
+    }
+  </script>
+  <!-- Import the model-viewer element for 3D glb rendering -->
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
+</head>
+
+<body>
+
+  <!-- ══════════════════ NAV ══════════════════ -->
+  <nav class="nav" id="mainNav">
+    <div class="nav__logo" onclick="navigateTo('home')">
+      <span class="nav__dot"></span> Sahil
+    </div>
+    <ul class="nav__links" id="navLinks">
+      <li><button class="nav__btn active" data-page="home" onclick="navigateTo('home')">Home</button></li>
+      <li><button class="nav__btn" data-page="about" onclick="navigateTo('about')">About</button></li>
+      <li><button class="nav__btn" data-page="edu" onclick="navigateTo('edu')">Education</button></li>
+      <li><button class="nav__btn" data-page="projects" onclick="navigateTo('projects')">Projects</button></li>
+      <li><button class="nav__btn" data-page="gallery" onclick="navigateTo('gallery')">Gallery</button></li>
+      <li><button class="nav__btn" data-page="connect" onclick="navigateTo('connect')">Connect</button></li>
+    </ul>
+    <button class="theme-toggle-btn" id="themeToggle" onclick="toggleDarkMode()" aria-label="Toggle theme" title="Switch Theme">
+      <span class="theme-icon theme-icon-sun">☀️</span>
+      <span class="theme-icon theme-icon-moon">🌙</span>
+    </button>
+    <button class="nav__hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- ══════════════════ PAGES ══════════════════ -->
+  <div class="pages" id="pages">
+
+    <!-- ████████ HOME ████████ -->
+    <section class="page" id="page-home">
+
+      <!-- Architectural Dotted Vertical Grid Lines -->
+      <div class="h-grid-line line-1" aria-hidden="true"></div>
+      <div class="h-grid-line line-2" aria-hidden="true"></div>
+      <div class="h-grid-line line-3" aria-hidden="true"></div>
+
+      <!-- Background Dot Matrix Accent Pattern -->
+      <div class="h-bg-grid" aria-hidden="true"></div>
+
+      <!-- Floating Decorative Pixel Accents -->
+      <div class="h-deco-star star-1" aria-hidden="true">✦</div>
+      <div class="h-deco-star star-2" aria-hidden="true">✦</div>
+      <div class="h-deco-cross cross-1" aria-hidden="true">+</div>
+      <div class="h-deco-cross cross-2" aria-hidden="true">+</div>
+
+      <!-- Rotating Craft Badge Stamp -->
+      <div class="h-stamp-badge" aria-hidden="true">
+        <svg viewBox="0 0 100 100" class="h-stamp-svg">
+          <path id="stamp-circle" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" fill="none"/>
+          <text class="h-stamp-text">
+            <textPath href="#stamp-circle">OPEN TO NEW OPPORTUNITIES • AVAILABLE • </textPath>
+          </text>
+        </svg>
+        <span class="h-stamp-icon">✦</span>
+      </div>
+
+      <!-- Big 3D camera — positioned right/center -->
+      <div class="h-camera" aria-hidden="true">
+        <!-- Ground Plane Vector Ring -->
+        <div class="h-ground-ring" aria-hidden="true"></div>
+
+        <!-- Floating Feature Badges on Camera -->
+        <div class="h-float-card card-tl">
+          <span class="card-num">✦</span>
+          <span class="card-lbl">BLUEPRINTS</span>
+        </div>
+        <div class="h-float-card card-br">
+          <span class="card-num">✦</span>
+          <span class="card-lbl">UE5 • C++</span>
+        </div>
+
+        <!-- Google Model Viewer for glTF/glb rendering -->
+        <model-viewer id="camera-3d" 
+                      src="assets/models/character3.glb" 
+                      alt="3D Camera Character" 
+                      camera-orbit="0deg 90deg 105%"
+                      field-of-view="32deg"
+                      exposure="1.0"
+                      shadow-intensity="0"
+                      interaction-prompt="none"
+                      disable-zoom
+                      style="width: 100%; height: 100%; background: transparent; --progress-bar-color: transparent;">
+        </model-viewer>
+
+        <!-- Face overlay: transparent background keeping only face animations -->
+        <div class="h-face-overlay">
+          <svg id="camera-svg" viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: 100%; display: block;">
+            <g id="camera-face-group">
+              <!-- 1. HAPPY (wedge eyes ^ ^) -->
+              <g id="face-happy" class="camera-face">
+                <!-- Left eye wedge — centred around x=30 -->
+                <g class="camera-eyes">
+                  <rect x="30" y="28" width="5" height="5" rx="1" fill="#1A1A1A"/>
+                  <rect x="25" y="33" width="5" height="5" rx="1" fill="#1A1A1A"/>
+                  <rect x="35" y="33" width="5" height="5" rx="1" fill="#1A1A1A"/>
+                </g>
+                <!-- Right eye wedge — centred around x=65 -->
+                <g class="camera-eyes">
+                  <rect x="65" y="28" width="5" height="5" rx="1" fill="#1A1A1A"/>
+                  <rect x="60" y="33" width="5" height="5" rx="1" fill="#1A1A1A"/>
+                  <rect x="70" y="33" width="5" height="5" rx="1" fill="#1A1A1A"/>
+                </g>
+                <!-- Mouth — centred around x=50, y=52 -->
+                <rect x="40" y="52" width="20" height="5" rx="1.5" fill="#1A1A1A"/>
+              </g>
+
+              <!-- 2. CURIOUS 'O' -->
+              <g id="face-curious" class="camera-face" style="display: none;">
+                <g class="camera-eyes">
+                  <rect x="27" y="26" width="11" height="11" rx="2.5" fill="#1A1A1A"/>
+                </g>
+                <g class="camera-eyes">
+                  <rect x="62" y="26" width="11" height="11" rx="2.5" fill="#1A1A1A"/>
+                </g>
+                <rect x="45" y="50" width="10" height="10" rx="5" fill="#1A1A1A"/>
+              </g>
+
+              <!-- 3. GIGGLE -->
+              <g id="face-giggle" class="camera-face" style="display: none;">
+                <g class="camera-eyes">
+                  <path d="M 25 35 L 32 24 L 39 35" stroke="#1A1A1A" stroke-width="4" fill="none" stroke-linecap="square"/>
+                </g>
+                <g class="camera-eyes">
+                  <path d="M 61 35 L 68 24 L 75 35" stroke="#1A1A1A" stroke-width="4" fill="none" stroke-linecap="square"/>
+                </g>
+                <path d="M 36 50 L 64 50 L 64 60 L 36 60 Z" fill="#1A1A1A"/>
+              </g>
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Overlay content -->
+      <div class="h-overlay">
+        <!-- Hero text block (Shifted Up) -->
+        <div class="h-hero">
+          <h1 class="h-name">HI, I AM SAHIL</h1>
+          <div class="h-foot">
+            <p class="h-tagline">Building gameplay systems in Unreal Engine with C++ and Blueprints: combat, enemy AI, and the details that make a game feel good to play.</p>
+            <div class="h-cta-group">
+              <button class="btn-primary" onclick="navigateTo('projects')">Explore Works &rarr;</button>
+              <button class="btn-secondary" onclick="navigateTo('connect')">Get in Touch ↗</button>
+            </div>
+            <!-- Quick skill chips -->
+            <div class="h-skill-chips">
+              <span class="h-chip">Unreal Engine 5</span>
+              <span class="h-chip">C++</span>
+              <span class="h-chip">Blueprints</span>
+              <span class="h-chip">Gameplay Programming</span>
+            </div>
+          </div>
+        </div>
+
+      <!-- Social sidebar -->
+      <div class="h-social">
+        <a href="javascript:void(0)" class="h-social__lnk" title="Instagram" style="opacity:0.4;cursor:default;" aria-disabled="true">IG</a>
+        <span class="h-social__bar"></span>
+        <a href="https://github.com/Sahild48" target="_blank" rel="noopener noreferrer" class="h-social__lnk" title="GitHub">GH</a>
+        <span class="h-social__bar"></span>
+        <a href="https://www.linkedin.com/in/sahild48" target="_blank" rel="noopener noreferrer" class="h-social__lnk" title="LinkedIn">IN</a>
+      </div>
+
+      <!-- Scroll hint -->
+      <div class="h-scroll">
+        <span>scroll</span>
+        <div class="h-scroll__line"></div>
+      </div>
+    </div>
+  </section>
+
+    <!-- ████████ ABOUT ████████ -->
+    <section class="page" id="page-about">
+      <div class="pg-about">
+
+        <!-- Left column -->
+        <div class="pg-about__l">
+          <span class="pg-sup">01 — About Me</span>
+          <h2 class="pg-title">WHO<br>AM I?</h2>
+          
+          <!-- Skills -->
+          <div class="pg-about__skills">
+            <span class="skill-tag">Unreal Engine 5</span>
+            <span class="skill-tag">C++</span>
+            <span class="skill-tag">Blueprints</span>
+            <span class="skill-tag">Gameplay Programming</span>
+            <span class="skill-tag">Enemy AI</span>
+            <span class="skill-tag">Combat Systems</span>
+            <span class="skill-tag">DaVinci Resolve</span>
+            <span class="skill-tag">Photoshop</span>
+            <span class="skill-tag">Photography &amp; Video Editing</span>
+          </div>
+        </div>
+
+        <!-- Right column -->
+        <div class="pg-about__r">
+          <p class="pg-about__lead">Hey there! I'm <strong>Sahil</strong>, a final-year engineering student and aspiring gameplay programmer.</p>
+          <p class="pg-about__body">I build gameplay systems in Unreal Engine with C++ and Blueprints, from melee combat and enemy AI to health and stamina systems and loot drops. So far I've built a Blueprint coin-collector and a C++ action RPG, and I'm now learning Unreal's Gameplay Ability System.</p>
+          <p class="pg-about__body">I also served as General Secretary of my university's Fine Arts and Photography Society, where I led a team and organized an event with 6,000+ attendees. Photography and video editing shape how I think about composition and visuals in games.</p>
+
+          <div class="pg-about__stats">
+            <div class="stat-box">
+              <span class="stat-num">2</span>
+              <span class="stat-lbl">Unreal Engine<br>games built</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-num">GAS</span>
+              <span class="stat-lbl">Currently learning Unreal's<br>Gameplay Ability System</span>
+            </div>
+          </div>
+
+          <button class="btn-primary" onclick="navigateTo('edu')">Education &amp; Journey &rarr;</button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ████████ EDUCATION ████████ -->
+    <section class="page" id="page-edu">
+      <div class="pg-edu">
+
+        <!-- Header -->
+        <div class="pg-edu__hdr">
+          <div class="pg-edu__title-wrap">
+            <span class="pg-sup">02 — Education &amp; Qualifications</span>
+            <div class="pg-edu__title-row">
+              <h2 class="pg-title pg-title--row">MY JOURNEY</h2>
+              <div class="edu-companion-slot" id="eduCompanionSlot"></div>
+            </div>
+          </div>
+          <button class="btn-primary" onclick="navigateTo('projects')">Explore Projects &rarr;</button>
+        </div>
+
+        <div class="pg-edu__body">
+
+          <!-- Timeline -->
+          <div class="pg-edu__tl">
+
+            <!-- Education -->
+            <div class="tl-item">
+              <div class="tl-dot"></div>
+              <div class="tl-info">
+                <span class="tl-year">2023 — 2027 (Expected)</span>
+                <h3 class="tl-deg">Bachelor of Technology (B.Tech)</h3>
+                <p class="tl-sub">Electronics &amp; Communication Engineering</p>
+                <p class="tl-inst">Thapar Institute of Engineering &amp; Technology, Patiala, Punjab</p>
+                <p class="tl-det">Final-year student focused on game development and gameplay programming in Unreal Engine (C++).</p>
+              </div>
+            </div>
+
+            <!-- Leadership -->
+            <h4 class="tl-section-hd">LEADERSHIP</h4>
+
+            <div class="tl-item tl-item--connect">
+              <div class="tl-dot"></div>
+              <div class="tl-info">
+                <span class="tl-year">Jun 2025 — May 2026</span>
+                <h3 class="tl-deg">General Secretary</h3>
+                <p class="tl-sub">Fine Arts and Photography Society, Thapar Institute</p>
+                <p class="tl-det">Led the society as the highest position in the student body. Organized an event with 6,000+ attendees.</p>
+              </div>
+            </div>
+
+            <div class="tl-item tl-item--connect">
+              <div class="tl-dot"></div>
+              <div class="tl-info">
+                <span class="tl-year">Apr 2024 — Jun 2025</span>
+                <h3 class="tl-deg">Core Member</h3>
+                <p class="tl-sub">Fine Arts and Photography Society, Thapar Institute</p>
+              </div>
+            </div>
+
+            <div class="tl-item">
+              <div class="tl-dot"></div>
+              <div class="tl-info">
+                <span class="tl-year">Sep 2023 — Apr 2024</span>
+                <h3 class="tl-deg">Member</h3>
+                <p class="tl-sub">Fine Arts and Photography Society, Thapar Institute</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Certifications and Skills -->
+          <div class="pg-edu__certs">
+            <h3 class="certs-hd">Certifications and Skills</h3>
+
+            <div class="cert-row">
+              <span class="cert-ico">◆</span>
+              <div class="cert-txt">
+                <p class="cert-name">Unreal Engine 5 C++: The Ultimate Game Developer Course</p>
+                <p class="cert-by">Udemy &middot; Stephen Ulibarri &middot; Sept 2026 &middot; 53 hours</p>
+                <a class="cert-link" href="https://ude.my/UC-18b511e5-95ef-4e12-bfa3-e8639be20ff6" target="_blank" rel="noopener noreferrer">View certificate ↗</a>
+              </div>
+            </div>
+
+            <div class="cert-row cert-row--inprogress">
+              <span class="cert-ico">◆</span>
+              <div class="cert-txt">
+                <p class="cert-name">Unreal Engine Gameplay Ability System</p>
+                <span class="cert-badge">In progress</span>
+              </div>
+            </div>
+
+            <!-- Skills List -->
+            <div class="pg-edu__skills" style="margin-top: 1.25rem;">
+              <h4 class="certs-subhd" style="font-family: 'Space Mono', monospace; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--mid); margin-bottom: 0.75rem;">Skills &amp; Tools</h4>
+              <div class="edu-skills-tags" style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                <span class="skill-tag">Unreal Engine 5</span>
+                <span class="skill-tag">C++</span>
+                <span class="skill-tag">Blueprints</span>
+                <span class="skill-tag">Gameplay Programming</span>
+                <span class="skill-tag">DaVinci Resolve</span>
+                <span class="skill-tag">Photoshop</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ████████ PROJECTS SHOWCASE ████████ -->
+    <section class="page" id="page-projects">
+      <div class="pg-projects">
+        <div class="pg-proj__hdr">
+          <div class="pg-proj__title-wrap">
+            <span class="pg-sup">03 — Projects Showcase</span>
+            <div class="pg-proj__title-row">
+              <h2 class="pg-title pg-title--row">FEATURED WORKS</h2>
+              <div class="proj-companion-slot" id="projCompanionSlot"></div>
+            </div>
+          </div>
+          <button class="btn-primary" onclick="navigateTo('gallery')">View Shot Gallery &rarr;</button>
+        </div>
+
+        <!-- Project Grid: Exactly 2 Projects -->
+        <div class="proj-grid">
+          
+          <!-- ══════════════════════════════════════════════════════════════
+               CARD 1: Unreal Engine 5 Action RPG game
+               ══════════════════════════════════════════════════════════════ -->
+          <div class="proj-card">
+            <div class="proj-card__img-wrap">
+              <img src="assets/games/cpp/project-overview.jpg" alt="Unreal Engine 5 Action RPG game" class="proj-card__img proj-card__img--cpp" loading="lazy" />
+            </div>
+            <div class="proj-card__tag">UNREAL ENGINE 5 &bull; C++</div>
+            <h3 class="proj-card__title">Unreal Engine 5 Action RPG game</h3>
+            <p class="proj-card__desc">A third-person action RPG built in Unreal Engine 5 with C++, focusing on responsive combat mechanics, attribute progression, and enemy behaviors.</p>
+            <div class="proj-card__actions">
+              <a href="project-cpp.html" class="proj-btn">View Project &rarr;</a>
+            </div>
+          </div>
+
+          <!-- ══════════════════════════════════════════════════════════════
+               CARD 2: UE 5 Blueprint - Coin Collector
+               ══════════════════════════════════════════════════════════════ -->
+          <div class="proj-card">
+            <div class="proj-card__img-wrap">
+              <picture>
+                <source srcset="assets/games/blueprints/Enemy_Attacking-1600w.webp 1600w, assets/games/blueprints/Enemy_Attacking.webp 1913w" type="image/webp" />
+                <img src="assets/games/blueprints/Enemy_Attacking.jpg" alt="Enemies attacking the player in UE 5 Blueprint - Coin Collector" class="proj-card__img proj-card__img--bp" loading="lazy" />
+              </picture>
+            </div>
+            <div class="proj-card__tag">UNREAL ENGINE 5 &bull; BLUEPRINTS</div>
+            <h3 class="proj-card__title">UE 5 Blueprint - Coin Collector</h3>
+            <p class="proj-card__desc">Collect coins and dash past axe-wielding enemies, built with Blueprints.</p>
+            <div class="proj-card__actions">
+              <a href="project-blueprints.html" class="proj-btn">View Project &rarr;</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ████████ GALLERY (GAME & PHOTO BOARD) ████████ -->
+    <section class="page" id="page-gallery">
+      <div class="pg-gallery">
+        
+        <!-- Header (Strict row-by-row document flow to eliminate overlap) -->
+        <header class="pg-gal__hdr">
+          <div class="pg-gal__eyebrow-row">
+            <span class="pg-sup">04 — GALLERY</span>
+            <button class="btn-primary gal-contact-btn" onclick="navigateTo('connect')">Get in Touch &rarr;</button>
+          </div>
+          <div class="pg-gal__title-row">
+            <h2 class="pg-title">GAME &amp; PHOTO BOARD</h2>
+            <div class="gal-companion-slot" id="galCompanionSlot"></div>
+          </div>
+        </header>
+
+        <!-- Filter Bar -->
+        <nav class="gal-filters" id="galFilters" aria-label="Gallery category filters">
+          <button class="gal-filter active" data-filter="all" type="button">All</button>
+          <button class="gal-filter" data-filter="cpp" type="button">C++ Game</button>
+          <button class="gal-filter" data-filter="blueprints" type="button">Blueprint Game</button>
+          <button class="gal-filter" data-filter="photography" type="button">Photography</button>
+        </nav>
+
+        <!-- ── 1. C++ Action RPG Gameplay Screenshots ── -->
+        <section class="gal-section" id="galSectionCpp">
+          <div class="gal-section__hdr">
+            <div class="gal-section__title-wrap">
+              <span class="gal-section__badge">01 &bull; C++</span>
+              <h3 class="gal-section__heading">Unreal Engine 5 Action RPG (C++)</h3>
+            </div>
+            <div class="gal-section__line"></div>
+            <a href="project-cpp.html" class="gal-section__link">View Project &rarr;</a>
+          </div>
+          <div class="gal-game-grid" id="galGridCpp">
+            <!-- Driven dynamically from GALLERY_CPP_GAMES in gallery-data.js -->
+          </div>
+        </section>
+
+        <!-- ── 2. Blueprint Coin Collector Gameplay Screenshots ── -->
+        <section class="gal-section" id="galSectionBlueprints">
+          <div class="gal-section__hdr">
+            <div class="gal-section__title-wrap">
+              <span class="gal-section__badge">02 &bull; BLUEPRINTS</span>
+              <h3 class="gal-section__heading">UE5 Coin Collector (Blueprints)</h3>
+            </div>
+            <div class="gal-section__line"></div>
+            <a href="project-blueprints.html" class="gal-section__link">View Project &rarr;</a>
+          </div>
+          <div class="gal-game-grid" id="galGridBlueprints">
+            <!-- Driven dynamically from GALLERY_BP_GAMES in gallery-data.js -->
+          </div>
+        </section>
+
+        <!-- ── 3. Photography Shots ── -->
+        <section class="gal-section" id="galSectionPhotography">
+          <div class="gal-section__hdr">
+            <div class="gal-section__title-wrap">
+              <span class="gal-section__badge">03 &bull; VISUAL ARTS</span>
+              <h3 class="gal-section__heading">Photography</h3>
+            </div>
+            <div class="gal-section__line"></div>
+          </div>
+          <div class="gal-photo-masonry" id="galGridPhotography">
+            <!-- Driven dynamically from GALLERY_PHOTOS in gallery-data.js -->
+          </div>
+          <div class="gal-album-cta">
+            <button class="gal-album-btn" id="openFullAlbumBtn" type="button">
+              <span>View Full Album (13 Photos) &rarr;</span>
+            </button>
+          </div>
+        </section>
+
+      </div>
+    </section>
+
+    <!-- ████████ CONNECT ████████ -->
+    <section class="page" id="page-connect">
+      <div class="pg-connect">
+
+        <!-- Left -->
+        <div class="pg-connect__l">
+          <span class="pg-sup">05 — Connect</span>
+          <h2 class="pg-title">LET'S<br>BUILD TOGETHER</h2>
+          <p class="pg-connect__sub">Looking for a gameplay programmer or a game dev intern? Have a project in mind? Reach out anytime.</p>
+
+          <div class="pg-connect__links">
+
+            <!-- 1. Email Row -->
+            <a class="cc cc--email" href="mailto:sahil41657@gmail.com" title="Send email to sahil41657@gmail.com">
+              <div class="cc__icon" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                  <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                </svg>
+              </div>
+              <div class="cc__text">
+                <p class="cc__lbl">Email Direct</p>
+                <p class="cc__val">sahil41657@gmail.com</p>
+              </div>
+              <button type="button" class="cc__copy-btn" id="copyEmailBtn" title="Copy email address" aria-label="Copy email address">
+                <span class="copy-text">Copy</span>
+              </button>
+              <span class="cc__arr" aria-hidden="true">&rarr;</span>
+            </a>
+
+            <!-- 2. GitHub Row -->
+            <a class="cc cc--github" href="https://github.com/Sahild48" target="_blank" rel="noopener noreferrer" title="View GitHub profile">
+              <div class="cc__icon" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+                </svg>
+              </div>
+              <div class="cc__text">
+                <p class="cc__lbl">GitHub</p>
+                <p class="cc__val">github.com/Sahild48</p>
+              </div>
+              <button type="button" class="cc__copy-btn" id="copyGithubBtn" title="Copy GitHub link" aria-label="Copy GitHub link">
+                <span class="copy-text">Copy</span>
+              </button>
+              <span class="cc__arr" aria-hidden="true">&rarr;</span>
+            </a>
+
+            <!-- 3. LinkedIn Row -->
+            <a class="cc cc--linkedin" href="https://www.linkedin.com/in/sahild48" target="_blank" rel="noopener noreferrer" title="View LinkedIn profile">
+              <div class="cc__icon" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 8.76a1.64 1.64 0 0 0 1.64-1.64c0-.9-.74-1.64-1.64-1.64-.91 0-1.64.74-1.64 1.64 0 .9.73 1.64 1.64 1.64m1.39 9.74v-8.37H5.07v8.37h2.78z"/>
+                </svg>
+              </div>
+              <div class="cc__text">
+                <p class="cc__lbl">LinkedIn</p>
+                <p class="cc__val">linkedin.com/in/sahild48</p>
+              </div>
+              <button type="button" class="cc__copy-btn" id="copyLinkedinBtn" title="Copy LinkedIn link" aria-label="Copy LinkedIn link">
+                <span class="copy-text">Copy</span>
+              </button>
+              <span class="cc__arr" aria-hidden="true">&rarr;</span>
+            </a>
+
+            <!-- Download Resume Button -->
+            <a href="assets/resume.pdf" class="btn-resume" id="downloadResumeBtn" target="_blank" rel="noopener" download>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              Download Resume
+            </a>
+
+          </div>
+        </div>
+
+        <!-- Right -->
+        <div class="pg-connect__r">
+          <div class="connect-card-wrap">
+            <div class="connect-companion-slot" id="connectCompanionSlot"></div>
+            <div class="pg-connect__card">
+              <div class="card-badge">
+                <span class="card-badge-icon" aria-hidden="true">✦</span>
+                <span>DEVELOPER STATUS</span>
+              </div>
+
+              <div class="card-divider" aria-hidden="true"></div>
+
+              <div class="card-snapshot-item">
+                <span class="card-stat-label">ENGINE</span>
+                <span class="card-stat-value">Unreal Engine 5</span>
+              </div>
+
+              <div class="card-divider" aria-hidden="true"></div>
+
+              <div class="card-snapshot-item">
+                <span class="card-stat-label">STACK</span>
+                <span class="card-stat-value">C++ <span class="card-sep">•</span> Blueprints</span>
+              </div>
+
+              <div class="card-divider" aria-hidden="true"></div>
+
+              <div class="card-snapshot-item">
+                <span class="card-stat-label">FOCUS</span>
+                <span class="card-stat-value">Combat <span class="card-sep">•</span> AI <span class="card-sep">•</span> Gameplay Systems</span>
+              </div>
+
+              <div class="card-divider" aria-hidden="true"></div>
+
+              <div class="card-snapshot-item">
+                <span class="card-stat-label">CURRENTLY LEARNING</span>
+                <span class="card-stat-value">Gameplay Ability System</span>
+              </div>
+
+              <div class="card-divider" aria-hidden="true"></div>
+
+              <div class="card-snapshot-item">
+                <span class="card-stat-label">OPEN TO</span>
+                <span class="card-stat-value">Internships <span class="card-sep">•</span> Game Dev <span class="card-sep">•</span> Collaboration</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </div><!-- /pages -->
+
+  <!-- Page indicator dots -->
+  <nav class="pg-dots" aria-label="Page navigation">
+    <button class="pg-dot active" data-page="home" onclick="navigateTo('home')" title="Home"></button>
+    <button class="pg-dot" data-page="about" onclick="navigateTo('about')" title="About"></button>
+    <button class="pg-dot" data-page="edu" onclick="navigateTo('edu')" title="Education"></button>
+    <button class="pg-dot" data-page="projects" onclick="navigateTo('projects')" title="Projects"></button>
+    <button class="pg-dot" data-page="gallery" onclick="navigateTo('gallery')" title="Gallery"></button>
+    <button class="pg-dot" data-page="connect" onclick="navigateTo('connect')" title="Connect"></button>
+  </nav>
+
+  <!-- ══════════════════ 2D CAMERA COMPANION ══════════════════ -->
+  <!-- Persistent 2D voxel camera companion matching the character on all pages except Home -->
+  <div class="companion-cam" id="companionCam" aria-hidden="true" title="Click me!" style="display: none; opacity: 0;">
+    <!-- Speech bubble -->
+    <div class="companion-bubble" id="companionBubble"></div>
+    
+    <!-- Authentic 2D Camera SVG Character matching reference -->
+    <svg class="companion-svg" viewBox="0 0 200 165" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <!-- CRT Screen Soft Glow -->
+        <filter id="crt-glow" x="-15%" y="-15%" width="130%" height="130%">
+          <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000" flood-opacity="0.2"/>
+        </filter>
+        <linearGradient id="screen-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#FFFFFF"/>
+          <stop offset="100%" stop-color="#E2F3F8"/>
+        </linearGradient>
+        <linearGradient id="body-cream" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#F7EADB"/>
+          <stop offset="100%" stop-color="#EADBCA"/>
+        </linearGradient>
+        <linearGradient id="body-orange" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#FA8320"/>
+          <stop offset="100%" stop-color="#E86608"/>
+        </linearGradient>
+        <linearGradient id="red-accent" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#DE4629"/>
+          <stop offset="100%" stop-color="#BA3016"/>
+        </linearGradient>
+      </defs>
+
+      <!-- Top Handle Bracket (Red trapezoid with rectangular cutout) -->
+      <g class="cam-top-handle">
+        <path d="M 82 14 L 118 14 L 128 32 L 72 32 Z" fill="url(#red-accent)" stroke="#8A1E0B" stroke-width="1.5" stroke-linejoin="round"/>
+        <rect x="91" y="20" width="18" height="9" rx="1.5" fill="#751806" opacity="0.35"/>
+      </g>
+
+      <!-- Top Right Red Ridged Knob / Rotary Dial -->
+      <g class="cam-top-knob">
+        <rect x="135" y="18" width="30" height="14" rx="3" fill="url(#red-accent)" stroke="#8A1E0B" stroke-width="1.5"/>
+        <line x1="141" y1="19" x2="141" y2="31" stroke="#F5765D" stroke-width="1.5"/>
+        <line x1="147" y1="19" x2="147" y2="31" stroke="#F5765D" stroke-width="1.5"/>
+        <line x1="153" y1="19" x2="153" y2="31" stroke="#F5765D" stroke-width="1.5"/>
+        <line x1="159" y1="19" x2="159" y2="31" stroke="#F5765D" stroke-width="1.5"/>
+      </g>
+
+      <!-- Top Left Cream Stepped Shutter Button -->
+      <g class="cam-top-shutter">
+        <rect x="42" y="24" width="22" height="8" rx="2" fill="#E6D3BE" stroke="#BC9F80" stroke-width="1.5"/>
+        <rect x="46" y="20" width="14" height="5" rx="1.5" fill="#F4E6D6" stroke="#BC9F80" stroke-width="1.5"/>
+      </g>
+
+      <!-- Side Strap Loops / Tabs -->
+      <path d="M 18 56 L 26 56 L 26 72 L 18 72 L 18 68 L 14 68 L 14 60 L 18 60 Z" fill="#E6D3BE" stroke="#B89B7E" stroke-width="1.5"/>
+      <rect x="18" y="61" width="4" height="6" rx="0.5" fill="#806850" opacity="0.3"/>
+      <path d="M 182 56 L 174 56 L 174 72 L 182 72 L 182 68 L 186 68 L 186 60 L 182 60 Z" fill="#E6D3BE" stroke="#B89B7E" stroke-width="1.5"/>
+      <rect x="178" y="61" width="4" height="6" rx="0.5" fill="#806850" opacity="0.3"/>
+
+      <!-- Main Camera Body with Voxel Stepped Corners -->
+      <g class="cam-main-body">
+        <!-- Top Cream Half -->
+        <path d="M 32 30 L 168 30 L 174 36 L 174 72 L 26 72 L 26 36 Z" fill="url(#body-cream)" stroke="#BA9E82" stroke-width="2"/>
+        <!-- Bottom Orange Half -->
+        <path d="M 26 72 L 174 72 L 174 136 L 168 142 L 32 142 L 26 136 Z" fill="url(#body-orange)" stroke="#B34B00" stroke-width="2"/>
+        <!-- Bottom Base Strip (Cream) -->
+        <rect x="30" y="136" width="140" height="7" rx="1" fill="#E2D0BB" stroke="#B39373" stroke-width="1.5"/>
+      </g>
+
+      <!-- Front Body Details -->
+      <!-- Top Left Red Rectangular Badge -->
+      <rect x="38" y="44" width="22" height="11" rx="2" fill="url(#red-accent)" stroke="#8A1E0B" stroke-width="1.5"/>
+
+      <!-- Top Right Viewfinder Window (Bronze bezel with cyan glass) -->
+      <g class="cam-viewfinder">
+        <rect x="140" y="40" width="24" height="20" rx="2.5" fill="#4A4039" stroke="#2B241F" stroke-width="1.5"/>
+        <rect x="143" y="43" width="18" height="14" rx="1.5" fill="#D2E8F2"/>
+        <polygon points="143,43 154,43 148,57 143,57" fill="#FFFFFF" opacity="0.45"/>
+      </g>
+
+      <!-- Bottom Right Red Round Button with Gold Tab -->
+      <g class="cam-bottom-btn">
+        <rect x="148" y="104" width="10" height="6" rx="1" fill="#E8B438" stroke="#997014" stroke-width="1"/>
+        <rect x="146" y="110" width="14" height="14" rx="3" fill="url(#red-accent)" stroke="#8A1E0B" stroke-width="1.5"/>
+      </g>
+
+      <!-- Center Extruded Voxel CRT Screen Frame -->
+      <g class="cam-screen-bezel" filter="url(#crt-glow)">
+        <!-- Outer Coral/Terracotta 3D Frame -->
+        <rect x="62" y="46" width="76" height="76" rx="5" fill="#D66649" stroke="#96331B" stroke-width="2"/>
+        <rect x="66" y="50" width="68" height="68" rx="3" fill="#B8492D"/>
+        <rect x="70" y="54" width="60" height="60" rx="3" fill="#44413E"/>
+        <!-- Glowing Screen Display -->
+        <rect x="72" y="56" width="56" height="56" rx="2" fill="url(#screen-grad)"/>
+        <path d="M 72 56 L 128 56 L 128 60 L 72 60 Z" fill="#000000" opacity="0.08"/>
+      </g>
+
+      <!-- Screen Expressions (Pixelated / Blocky retro faces) -->
+      <g id="cam2d-face-container" class="cam-pixel-face">
+        <!-- 1. HAPPY (^ _ ^ matching reference image!) -->
+        <g id="cam2d-happy" class="cam-face-state">
+          <rect x="82" y="74" width="4" height="4" fill="#1C1E22"/>
+          <rect x="86" y="78" width="4" height="4" fill="#1C1E22"/>
+          <rect x="78" y="78" width="4" height="4" fill="#1C1E22"/>
+          <rect x="114" y="74" width="4" height="4" fill="#1C1E22"/>
+          <rect x="110" y="78" width="4" height="4" fill="#1C1E22"/>
+          <rect x="118" y="78" width="4" height="4" fill="#1C1E22"/>
+          <rect x="92" y="90" width="16" height="4" rx="0.5" fill="#1C1E22"/>
+        </g>
+
+        <!-- 2. CURIOUS / SURPRISED (Wide pixel square eyes + O mouth) -->
+        <g id="cam2d-curious" class="cam-face-state" style="display:none;">
+          <rect x="80" y="74" width="8" height="8" rx="1" fill="#1C1E22"/>
+          <rect x="112" y="74" width="8" height="8" rx="1" fill="#1C1E22"/>
+          <rect x="96" y="88" width="8" height="8" rx="2" fill="#1C1E22"/>
+        </g>
+
+        <!-- 3. WINK / CHEEKY (^ _ -) -->
+        <g id="cam2d-wink" class="cam-face-state" style="display:none;">
+          <rect x="82" y="74" width="4" height="4" fill="#1C1E22"/>
+          <rect x="78" y="78" width="4" height="4" fill="#1C1E22"/>
+          <rect x="86" y="78" width="4" height="4" fill="#1C1E22"/>
+          <rect x="110" y="78" width="12" height="4" rx="1" fill="#1C1E22"/>
+          <rect x="92" y="90" width="16" height="4" rx="0.5" fill="#1C1E22"/>
+          <rect x="90" y="88" width="3" height="3" fill="#1C1E22"/>
+          <rect x="107" y="88" width="3" height="3" fill="#1C1E22"/>
+        </g>
+
+        <!-- 4. EXCITED / JOY (> ▽ <) -->
+        <g id="cam2d-excited" class="cam-face-state" style="display:none;">
+          <path d="M 80 74 L 88 78 L 80 82" stroke="#1C1E22" stroke-width="3" fill="none" stroke-linecap="square"/>
+          <path d="M 120 74 L 112 78 L 120 82" stroke="#1C1E22" stroke-width="3" fill="none" stroke-linecap="square"/>
+          <path d="M 92 88 Q 100 98 108 88 Z" fill="#1C1E22"/>
+        </g>
+      </g>
+    </svg>
+  </div>
+
+  <!-- ══════════════════ LIGHTBOX MODAL ══════════════════ -->
+  <div class="lightbox" id="lightboxModal" aria-hidden="true" role="dialog" aria-label="Photo Lightbox">
+    <div class="lightbox__backdrop" id="lightboxBackdrop"></div>
+    <div class="lightbox__container">
+      <button class="lightbox__close" id="lightboxClose" aria-label="Close lightbox">&times;</button>
+      <button class="lightbox__nav lightbox__nav--prev" id="lightboxPrev" aria-label="Previous photo">&larr;</button>
+      
+      <div class="lightbox__content">
+        <div class="lightbox__image-wrap">
+          <img src="" alt="" id="lightboxImg" class="lightbox__img" />
+          <div class="lightbox__placeholder" id="lightboxPlaceholder">
+            <span>PREVIEW PLACEHOLDER</span>
+          </div>
+        </div>
+        <div class="lightbox__caption-bar">
+          <span class="lightbox__counter" id="lightboxCounter">1 / 6</span>
+          <h4 class="lightbox__title" id="lightboxTitle">Photo Title</h4>
+          <p class="lightbox__caption" id="lightboxCaption">Photo Caption Description</p>
+          <a href="photography.html" class="lightbox__album-link">View Full Album &rarr;</a>
+        </div>
+      </div>
+      
+      <button class="lightbox__nav lightbox__nav--next" id="lightboxNext" aria-label="Next photo">&rarr;</button>
+    </div>
+  </div>
+
+  <script src="assets/js/gallery-data.js"></script>
+  <script src="assets/js/gallery.js"></script>
+  <script src="assets/js/script.js?v=81"></script>
+</body>
+
+</html>
