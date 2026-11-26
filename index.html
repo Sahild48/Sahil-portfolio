@@ -10,8 +10,8 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Press+Start+2P&family=Space+Grotesk:wght@500;600;700&family=Space+Mono:wght@400;700&display=swap"
     rel="stylesheet" />
-  <link rel="stylesheet" href="assets/css/style.css?v=83" />
-  <link rel="stylesheet" href="assets/css/components.css?v=84" />
+  <link rel="stylesheet" href="assets/css/style.css?v=84" />
+  <link rel="stylesheet" href="assets/css/components.css?v=85" />
   <!-- ══ THEME SWITCHER — runs before body renders to prevent flash ══ -->
   <script>
     (function() {
@@ -26,8 +26,7 @@
       localStorage.setItem('portfolio-theme', isDark ? 'dark' : 'light');
     }
   </script>
-  <!-- Import the model-viewer element for 3D glb rendering -->
-  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
+  <!-- model-viewer loaded lazily after page is interactive — see assets/js/script.js -->
 </head>
 
 <body>
@@ -100,19 +99,22 @@
           <span class="card-lbl">UE5 • C++</span>
         </div>
 
-        <!-- Google Model Viewer for glTF/glb rendering -->
-        <model-viewer id="camera-3d" 
-                      src="assets/models/character3.glb" 
-                      alt="3D Camera Character" 
-                      loading="eager"
-                      reveal="auto"
+        <!-- Skeleton shown while GLB is downloading -->
+        <div class="h-model-skeleton" id="modelSkeleton" aria-hidden="true"></div>
+
+        <!-- Google Model Viewer — src set by JS after page is interactive -->
+        <model-viewer id="camera-3d"
+                      src=""
+                      alt="3D Camera Character"
+                      loading="lazy"
+                      reveal="manual"
                       camera-orbit="0deg 90deg 105%"
                       field-of-view="32deg"
                       exposure="1.0"
                       shadow-intensity="0"
                       interaction-prompt="none"
                       disable-zoom
-                      style="width: 100%; height: 100%; background: transparent; --progress-bar-color: #FA5F05; --progress-bar-height: 3px;">
+                      style="width: 100%; height: 100%; background: transparent; --progress-bar-color: transparent; --progress-bar-height: 0px;">
         </model-viewer>
 
         <!-- Face overlay: transparent background keeping only face animations -->
@@ -365,39 +367,39 @@
           <button class="btn-primary" onclick="navigateTo('gallery')">View Shot Gallery &rarr;</button>
         </div>
 
-        <!-- Project Grid: Exactly 2 Projects -->
+        <!-- Project Categories: Games/Mechanics & Levels -->
         <div class="proj-grid">
           
           <!-- ══════════════════════════════════════════════════════════════
-               CARD 1: Unreal Engine 5 Action RPG game
+               SECTION 1: Games & Mechanics
                ══════════════════════════════════════════════════════════════ -->
           <div class="proj-card">
             <div class="proj-card__img-wrap">
-              <img src="assets/games/cpp/project-overview.jpg" alt="Unreal Engine 5 Action RPG game" class="proj-card__img proj-card__img--cpp" loading="lazy" />
+              <img src="assets/games/cpp/project-overview.jpg" alt="Games and Mechanics in Unreal Engine 5" class="proj-card__img proj-card__img--cpp" loading="lazy" />
             </div>
-            <div class="proj-card__tag">UNREAL ENGINE 5 &bull; C++</div>
-            <h3 class="proj-card__title">Unreal Engine 5 Action RPG game</h3>
-            <p class="proj-card__desc">A third-person action RPG built in Unreal Engine 5 with C++, focusing on responsive combat mechanics, attribute progression, and enemy behaviors.</p>
+            <div class="proj-card__tag">UNREAL ENGINE 5 &bull; C++ &amp; BLUEPRINTS</div>
+            <h3 class="proj-card__title">Games &amp; Mechanics</h3>
+            <p class="proj-card__desc">Explore playable games, combat systems, enemy AI, and gameplay mechanics I have built. Pick any project inside to see its full breakdown.</p>
             <div class="proj-card__actions">
-              <a href="project-cpp.html" class="proj-btn">View Project &rarr;</a>
+              <a href="games-mechanics.html" class="proj-btn">Explore Games &amp; Mechanics &rarr;</a>
             </div>
           </div>
 
           <!-- ══════════════════════════════════════════════════════════════
-               CARD 2: UE 5 Blueprint - Coin Collector
+               SECTION 2: Levels (Coming Soon)
                ══════════════════════════════════════════════════════════════ -->
           <div class="proj-card">
             <div class="proj-card__img-wrap">
-              <picture>
-                <source srcset="assets/games/blueprints/Enemy_Attacking-1600w.webp 1600w, assets/games/blueprints/Enemy_Attacking.webp 1913w" type="image/webp" />
-                <img src="assets/games/blueprints/Enemy_Attacking.jpg" alt="Enemies attacking the player in UE 5 Blueprint - Coin Collector" class="proj-card__img proj-card__img--bp" loading="lazy" />
-              </picture>
+              <div class="proj-card__coming-soon" aria-label="Levels section coming soon">
+                <span class="proj-card__coming-soon-badge">COMING SOON</span>
+                <span class="proj-card__coming-soon-sub">BLOCKOUTS &bull; ENVIRONMENTS &bull; ENCOUNTERS</span>
+              </div>
             </div>
-            <div class="proj-card__tag">UNREAL ENGINE 5 &bull; BLUEPRINTS</div>
-            <h3 class="proj-card__title">UE 5 Blueprint - Coin Collector</h3>
-            <p class="proj-card__desc">Collect coins and dash past axe-wielding enemies, built with Blueprints.</p>
+            <div class="proj-card__tag">LEVEL DESIGN &bull; ENVIRONMENTS</div>
+            <h3 class="proj-card__title">Levels</h3>
+            <p class="proj-card__desc">Custom game levels, blockouts, spatial pacing, and environmental storytelling setups currently in development.</p>
             <div class="proj-card__actions">
-              <a href="project-blueprints.html" class="proj-btn">View Project &rarr;</a>
+              <span class="proj-btn proj-btn--disabled" aria-disabled="true">Coming Soon</span>
             </div>
           </div>
 

@@ -554,7 +554,7 @@
     container.innerHTML = `
       ${heroBgHtml}
       <div class="proj-top-actions">
-        <a href="index.html#projects" class="proj-back-btn">&larr; Back to Projects</a>
+        <a href="games-mechanics.html" class="proj-back-btn">&larr; Back to Games &amp; Mechanics</a>
         ${watchGameplayTopBtn}
       </div>
 

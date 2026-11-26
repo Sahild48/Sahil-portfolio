@@ -33,6 +33,11 @@
       "Framing shots.",
       "Eye for light.",
       "Click, click!"
+    ],
+    games: [
+      "Pick a game!",
+      "C++ or Blueprints?",
+      "Press start!"
     ]
   };
 

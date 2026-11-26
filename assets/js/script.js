@@ -33,6 +33,69 @@ function initTheme() {
 initTheme();
 
 // ─────────────────────────────────────────────────
+// Lazy 3D Model Loader
+// Injects model-viewer CDN script after page is
+// interactive, then sets the GLB src. This prevents
+// the ~56 kB library + 6 MB model from blocking
+// the initial render/paint.
+// ─────────────────────────────────────────────────
+function initLazy3DModel() {
+  const modelViewer = document.getElementById('camera-3d');
+  const skeleton    = document.getElementById('modelSkeleton');
+  if (!modelViewer) return;
+
+  const MODEL_SRC   = 'assets/models/character3.glb';
+  const FALLBACK    = 'https://raw.githubusercontent.com/Sahild48/Sahil-portfolio/main/assets/models/character3.glb';
+  const LIB_URL     = 'https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js';
+
+  function onModelLoad() {
+    modelViewer.classList.add('model-ready');
+    if (skeleton) skeleton.classList.add('loaded');
+    // Hide skeleton fully after fade
+    if (skeleton) setTimeout(() => { skeleton.style.display = 'none'; }, 600);
+  }
+
+  function attachModel() {
+    // Set src to trigger load
+    modelViewer.setAttribute('src', MODEL_SRC);
+    modelViewer.setAttribute('reveal', 'auto');
+
+    modelViewer.addEventListener('load', onModelLoad, { once: true });
+
+    // Fallback: if local fails, try GitHub raw
+    modelViewer.addEventListener('error', () => {
+      console.warn('3D model local load failed, trying GitHub fallback…');
+      if (modelViewer.getAttribute('src') !== FALLBACK) {
+        modelViewer.setAttribute('src', FALLBACK);
+        modelViewer.addEventListener('load', onModelLoad, { once: true });
+      }
+    }, { once: true });
+  }
+
+  // Inject model-viewer library dynamically, then attach model
+  if (!customElements.get('model-viewer')) {
+    const script = document.createElement('script');
+    script.type = 'module';
+    script.src  = LIB_URL;
+    script.onload = () => attachModel();
+    // Fallback for browsers where onload may not fire on module scripts
+    script.addEventListener('load', attachModel, { once: true });
+    document.head.appendChild(script);
+  } else {
+    // Library already defined (e.g. hot reload)
+    attachModel();
+  }
+}
+
+// Fire after page is interactive — does not block first paint
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initLazy3DModel);
+} else {
+  // Already interactive (script is deferred)
+  initLazy3DModel();
+}
+
+// ─────────────────────────────────────────────────
 // Core: navigate to a page
 // ─────────────────────────────────────────────────
 function navigateTo(target) {
@@ -439,20 +502,32 @@ if (hamburger && navLinks) {
 // ─────────────────────────────────────────────────
 
 // Track cursor to move the eyes inside the SVG and rotate the 3D camera body in WebGL space
-document.addEventListener('mousemove', (e) => {
-  if (currentPage !== 'home') return; // only track on landing page
+// Throttled to one update per animation frame to avoid layout thrashing on every mouse move
+let _mouseMoveRafId   = null;
+let _pendingMouseX    = 0;
+let _pendingMouseY    = 0;
+let _svgRectCache     = null;    // cached every 2s to avoid getBoundingClientRect per move
+let _svgRectTimer     = 0;
+let _lastAzimuth      = null;
+let _lastPolar        = null;
 
-  // 1. Move camera pupils inside SVG
+function _applyMouseMove(x, y) {
+  if (currentPage !== 'home') return;
+
+  // 1. Eye tracking — cache rect for 2 seconds to avoid layout read every frame
+  const now = Date.now();
   const cameraSvg = document.getElementById('camera-svg');
   if (cameraSvg) {
-    const rect = cameraSvg.getBoundingClientRect();
-    const eyeCenterX = rect.left + rect.width / 2;
-    const eyeCenterY = rect.top + rect.height * 0.55;
+    if (!_svgRectCache || now - _svgRectTimer > 2000) {
+      _svgRectCache = cameraSvg.getBoundingClientRect();
+      _svgRectTimer = now;
+    }
+    const eyeCenterX = _svgRectCache.left + _svgRectCache.width / 2;
+    const eyeCenterY = _svgRectCache.top  + _svgRectCache.height * 0.55;
 
-    const dx = e.clientX - eyeCenterX;
-    const dy = e.clientY - eyeCenterY;
+    const dx = x - eyeCenterX;
+    const dy = y - eyeCenterY;
     const dist = Math.hypot(dx, dy) || 1;
-
     const maxMove = 15;
     const moveX = (dx / dist) * Math.min(Math.abs(dx) * 0.12, maxMove);
     const moveY = (dy / dist) * Math.min(Math.abs(dy) * 0.12, maxMove);
@@ -463,42 +538,44 @@ document.addEventListener('mousemove', (e) => {
     });
   }
 
-  // 2. Rotate the entire 3D camera body in WebGL space using camera-orbit
+  // 2. Rotate 3D camera body — only setAttribute if angle changed by >0.5deg to avoid
+  //    triggering WebGL re-renders on every pixel of mouse movement
   const modelViewer = document.getElementById('camera-3d');
-  if (modelViewer && !modelViewer.dataset.fallbackBound) {
-    modelViewer.dataset.fallbackBound = 'true';
-    modelViewer.addEventListener('error', (event) => {
-      console.warn('3D model load error, trying GitHub raw fallback...', event);
-      const fallbackUrl = 'https://raw.githubusercontent.com/Sahild48/Sahil-portfolio/main/assets/models/character3.glb';
-      if (modelViewer.getAttribute('src') !== fallbackUrl) {
-        modelViewer.setAttribute('src', fallbackUrl);
-      }
-    });
-  }
-
   if (modelViewer) {
     const wX = window.innerWidth / 2;
     const wY = window.innerHeight / 2;
-    const normX = (e.clientX - wX) / wX; // -1 (left) to +1 (right)
-    const normY = (e.clientY - wY) / wY; // -1 (top) to +1 (bottom)
+    const normX = (x - wX) / wX;
+    const normY = (y - wY) / wY;
 
-    // Wide 3D rotation angles so the 3D camera body physically turns to face the cursor:
-    // Azimuth (horizontal turn toward cursor): -32deg to +32deg
-    // Polar (vertical pitch angle): 72deg to 108deg
-    const azimuth = (-normX * 32).toFixed(1);
-    const polar = (90 - normY * 18).toFixed(1);
+    const azimuth = parseFloat((-normX * 32).toFixed(1));
+    const polar   = parseFloat((90 - normY * 18).toFixed(1));
 
-    modelViewer.setAttribute('camera-orbit', `${azimuth}deg ${polar}deg 105%`);
+    if (_lastAzimuth === null || Math.abs(azimuth - _lastAzimuth) > 0.5 || Math.abs(polar - _lastPolar) > 0.5) {
+      _lastAzimuth = azimuth;
+      _lastPolar   = polar;
+      modelViewer.setAttribute('camera-orbit', `${azimuth}deg ${polar}deg 105%`);
+    }
 
-    // Shift face overlay in sync with the 3D screen turning
+    // 3. Face overlay shift
     const faceOverlay = document.querySelector('.h-face-overlay');
     if (faceOverlay) {
-      const faceShiftX = normX * 45; // -45px to +45px
-      const faceShiftY = normY * 30; // -30px to +30px
+      const faceShiftX = normX * 45;
+      const faceShiftY = normY * 30;
       faceOverlay.style.transform = `translate(calc(-50% + ${faceShiftX.toFixed(1)}px), calc(-50% + ${faceShiftY.toFixed(1)}px))`;
     }
   }
-});
+}
+
+document.addEventListener('mousemove', (e) => {
+  _pendingMouseX = e.clientX;
+  _pendingMouseY = e.clientY;
+  if (!_mouseMoveRafId) {
+    _mouseMoveRafId = requestAnimationFrame(() => {
+      _mouseMoveRafId = null;
+      _applyMouseMove(_pendingMouseX, _pendingMouseY);
+    });
+  }
+}, { passive: true });
 
 const faces = ['face-happy', 'face-curious', 'face-giggle'];
 let currentFaceIndex = 0;
@@ -662,9 +739,13 @@ function createClickEffect(x, y) {
   });
 }
 
-// Global click event listener
+// Global click event listener — skip on touch-primary devices (mobile) to avoid jank
+const _isTouchPrimary = () => window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+
 document.addEventListener('click', (e) => {
-  createClickEffect(e.clientX, e.clientY);
+  if (!_isTouchPrimary()) {
+    createClickEffect(e.clientX, e.clientY);
+  }
 });
 
 // ─────────────────────────────────────────────────
@@ -764,9 +845,11 @@ function showCompanionBubble(text) {
   if (!bubble) return;
   clearTimeout(bubbleTimeout);
   bubble.textContent = text;
+  // Remove and re-add 'visible' on next tick — avoids forced reflow (void offsetWidth)
   bubble.classList.remove('visible');
-  void bubble.offsetWidth; // force reflow
-  bubble.classList.add('visible');
+  requestAnimationFrame(() => {
+    bubble.classList.add('visible');
+  });
 
   bubbleTimeout = setTimeout(() => {
     bubble.classList.remove('visible');
@@ -865,8 +948,9 @@ function updateCompanionForPage(page) {
     companion.style.pointerEvents = 'auto';
 
     // 3. Teleport In at the new spot with bouncy materialization!
-    void companion.offsetWidth; // force reflow
-    companion.classList.add('cam-teleport-in');
+    requestAnimationFrame(() => {
+      companion.classList.add('cam-teleport-in');
+    });
 
     // Cycle expression and pop voice line
     cam2dFaceIdx = (cam2dFaceIdx + 1) % cam2dFaces.length;
